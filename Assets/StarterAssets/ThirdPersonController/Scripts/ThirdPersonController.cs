@@ -86,6 +86,7 @@ namespace StarterAssets
         private float _rotationVelocity;
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
+        [SerializeField] Animator PirateAnimator;
 
         // timeout deltatime
         private float _jumpTimeoutDelta;
@@ -134,6 +135,8 @@ namespace StarterAssets
 
         private void Start()
         {
+            PirateAnimator = GetComponent<Animator>();
+
             _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             
             _hasAnimator = TryGetComponent(out _animator);
@@ -159,6 +162,8 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
+
+            
         }
 
         private void LateUpdate()
@@ -277,6 +282,16 @@ namespace StarterAssets
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
+            if(targetSpeed>0)
+            {
+                PirateAnimator.SetBool("isWalking", true);
+            }
+            else
+            {
+                PirateAnimator.SetBool("isWalking", false);
+            }
+            Debug.Log(PirateAnimator.GetBool("isWalking"));
+            Debug.Log(targetSpeed);
         }
 
         private void JumpAndGravity()
