@@ -25,7 +25,13 @@ public class UIScript : MonoBehaviour
             ShowUI();
         }
     }
-
+    void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            HideUI();
+        }
+    }
     public void Interact()
     {
 
