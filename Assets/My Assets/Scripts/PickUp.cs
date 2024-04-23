@@ -4,33 +4,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerTeleport : MonoBehaviour
+public class PickUp : MonoBehaviour
 {
+
     [SerializeField] InputAction input;
-    public Transform TeleportTarget;
     public StarterAssetsInputs InputSystem;
-    public GameObject Lockedui;
-    public GameObject Openui;
     public GameObject thePlayer;
-    public bool Unlocked = false;
+    public GameObject theObject;
+    public GameObject ui;
     private bool checkInput = false;
-    [SerializeField]private bool doOnce = false;
-    
-    
-    
+    [SerializeField] private bool doOnce = false;
+
+
     private void OnTriggerEnter(Collider other)
     {
-        if (Unlocked)
+        if (other.tag == "Player")
         {
-            if (other.tag == "Player")
-            {
-                ShowOpenUI();
-                checkInput = true;
-            }
-        }
-        else
-        {
-            ShowLockedUI();
+            ShowUI();
+            checkInput = true;
         }
     }
 
@@ -43,18 +34,13 @@ public class PlayerTeleport : MonoBehaviour
         }
     }
 
-    public void ShowLockedUI()
+    public void ShowUI()
     {
-        Lockedui.SetActive(true);
-    }
-    public void ShowOpenUI()
-    {
-        Openui.SetActive(true);
+        ui.SetActive(true);
     }
     public void HideUI()
     {
-        Lockedui.SetActive(false);
-        Openui.SetActive(false);
+        ui.SetActive(false);
     }
     // Start is called before the first frame update
     void Start()
@@ -65,13 +51,13 @@ public class PlayerTeleport : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        //if (Input.GetButtonDown(KeyCode.E))
         if (checkInput && InputSystem.Interact && !doOnce)
         {
-            thePlayer.transform.position = TeleportTarget.transform.position;
+            theObject.transform.SetParent(thePlayer.transform);
+            theObject.transform.localPosition = new Vector3(0.35f, 0f, 0f);
             doOnce = true;
+            HideUI();
         }
     }
-    
+
 }
