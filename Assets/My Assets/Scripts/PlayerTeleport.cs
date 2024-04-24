@@ -12,6 +12,10 @@ public class PlayerTeleport : MonoBehaviour
     public GameObject Lockedui;
     public GameObject Openui;
     public GameObject thePlayer;
+    public GameObject Beach1;
+    public GameObject Beach2;
+    public GameObject Basement1;
+    public GameObject Basement2;
     public bool Unlocked = false;
     private bool checkInput = false;
     [SerializeField]private bool doOnce = false;
@@ -51,6 +55,30 @@ public class PlayerTeleport : MonoBehaviour
     {
         Openui.SetActive(true);
     }
+
+    public void HideBeachSound()
+    {
+        Beach1.SetActive(false);
+        Beach2.SetActive(false);
+    }
+
+    public void HideBasementSound()
+    {
+        Basement1.SetActive(false);
+        Basement2.SetActive(false);
+    }
+
+    public void PlayBeachSound()
+    {
+        Beach1.SetActive(true);
+        Beach2.SetActive(true);
+    }
+
+    public void PlayBasementSound()
+    {
+        Basement1.SetActive(true);
+        Basement2.SetActive(true);
+    }
     public void HideUI()
     {
         Lockedui.SetActive(false);
@@ -60,16 +88,20 @@ public class PlayerTeleport : MonoBehaviour
     void Start()
     {
         HideUI();
+        PlayBeachSound();
+        HideBasementSound();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        Unlocked = GameObject.Find("Balcony_Post").GetComponent<PutDown>().unlocked;
         //if (Input.GetButtonDown(KeyCode.E))
         if (checkInput && InputSystem.Interact && !doOnce)
         {
             thePlayer.transform.position = TeleportTarget.transform.position;
+            HideBeachSound();
+            PlayBasementSound();
             doOnce = true;
         }
     }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PickUp : MonoBehaviour
+public class PickUp2 : MonoBehaviour
 {
 
     [SerializeField] InputAction input;
@@ -13,6 +13,7 @@ public class PickUp : MonoBehaviour
     public GameObject theObject;
     public GameObject ui;
     private bool checkInput = false;
+    public bool PickedUp = false;
     [SerializeField] private bool doOnce = false;
 
 
@@ -57,7 +58,8 @@ public class PickUp : MonoBehaviour
         if (checkInput && InputSystem.Interact && !doOnce)
         {
             theObject.transform.SetParent(thePlayer.transform);
-            theObject.transform.localPosition = new Vector3(0.35f, 0f, 0f);
+            theObject.transform.localPosition = new Vector3(0f, 0f, 0f);
+            PickedUp = true;
             doOnce = true;
             HideUI();
         }

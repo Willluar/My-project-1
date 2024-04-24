@@ -4,26 +4,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PickUp : MonoBehaviour
+public class OpenChestTriggerCutscene : MonoBehaviour
 {
-
     [SerializeField] InputAction input;
     public StarterAssetsInputs InputSystem;
     public GameObject thePlayer;
     public GameObject theObject;
     public GameObject ui;
+    public bool pickedUp = false;
     private bool checkInput = false;
     [SerializeField] private bool doOnce = false;
-
+    public Vector3 rotationDirection;
+ 
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!doOnce)
+        if (pickedUp)
         {
-            if (other.tag == "Player")
+            if (!doOnce)
             {
-                ShowUI();
-                checkInput = true;
+                if (other.tag == "Player")
+                {
+                    ShowUI();
+                    checkInput = true;
+                }
             }
         }
     }
@@ -45,22 +49,29 @@ public class PickUp : MonoBehaviour
     {
         ui.SetActive(false);
     }
+
+
     // Start is called before the first frame update
     void Start()
     {
         HideUI();
     }
 
+    void Open()
+    {
+        transform.Rotate(rotationDirection );
+    }
+
     // Update is called once per frame
     void Update()
     {
+        
+        pickedUp = GameObject.Find("photo").GetComponent<PickUp2>().PickedUp;
         if (checkInput && InputSystem.Interact && !doOnce)
         {
-            theObject.transform.SetParent(thePlayer.transform);
-            theObject.transform.localPosition = new Vector3(0.35f, 0f, 0f);
+            Open();
             doOnce = true;
             HideUI();
         }
     }
-
 }

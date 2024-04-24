@@ -14,6 +14,7 @@ public class PutDown : MonoBehaviour
     public GameObject ui;
     private bool checkInput = false;
     [SerializeField] private bool doOnce = false;
+    public bool unlocked = false;
 
 
     private void OnTriggerEnter(Collider other)
@@ -57,6 +58,7 @@ public class PutDown : MonoBehaviour
             heldObject.transform.localPosition = new Vector3(0f, 1.2f, 0f);
             heldObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
             doOnce = true;
+            unlocked = true;
             HideUI();
         }
     }
