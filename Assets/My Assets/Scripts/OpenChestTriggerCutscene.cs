@@ -56,10 +56,15 @@ public class OpenChestTriggerCutscene : MonoBehaviour
     {
         HideUI();
     }
-
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(5);
+        Application.Quit();
+    }
     void Open()
     {
         transform.Rotate(rotationDirection );
+        StartCoroutine(Delay());
     }
 
     // Update is called once per frame
@@ -69,9 +74,10 @@ public class OpenChestTriggerCutscene : MonoBehaviour
         pickedUp = GameObject.Find("photo").GetComponent<PickUp2>().PickedUp;
         if (checkInput && InputSystem.Interact && !doOnce)
         {
-            Open();
             doOnce = true;
             HideUI();
+            Open();
+            
         }
     }
 }
